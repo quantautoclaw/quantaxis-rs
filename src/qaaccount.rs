@@ -9,7 +9,6 @@ use csv;
 use qifi_rs::{Account, Order, Position, Trade, QIFI};
 use serde::{Deserialize, Serialize};
 use serde_json::to_string;
-use uuid::v1::{Context, Timestamp};
 use uuid::Uuid;
 use log::{info,error,warn};
 use crate::market_preset::{CodePreset, MarketPreset};
@@ -730,9 +729,7 @@ impl QA_Account {
         };
         let datetime = datetimer.as_str();
 
-        let context = Context::new(self.event_id as u16);
-        let ts = Timestamp::from_unix(&context, 1497624119, 1234);
-        let uuid = Uuid::new_v1(ts, &[1, 2, 3, 4, 5, 6]).expect("failed to generate UUID");
+        let uuid = Uuid::new_v4();
 
         let order_id: String = uuid.to_string();
 

@@ -123,12 +123,16 @@ impl QAPerformance_Single {
                     "SELL" => ("BUY", true),
                     _ => ("", false),
                 };
-                let u = self.temp.get_mut(raw_direction).unwrap();
-                //println!("{:#?}", u);
+                let u = match self.temp.get_mut(raw_direction) {
+                    Some(u) => u,
+                    None => return, // No matching direction in temp
+                };
 
                 let mut codeset = self.market_set.get(trade.instrument_id.as_ref());
-
-                let f = u.get_mut(0).unwrap();
+                let f = match u.get_mut(0) {
+                    Some(f) => f,
+                    None => return, // No open position to close
+                };
 
                 if trade.volume > f.amount {
                     // close> raw ==> 注销继续loop

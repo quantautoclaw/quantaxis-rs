@@ -3,15 +3,14 @@ extern crate ndarray;
 extern crate ndarray_csv;
 extern crate num_traits;
 extern crate serde;
-extern crate stopwatch;
 
 use std::borrow::BorrowMut;
 use std::cmp::{max, min};
 use std::f64;
 use std::io;
+use std::time::Instant;
 
 use ndarray::{array, stack};
-use stopwatch::Stopwatch;
 
 use quantaxis_rs::{
     indicators, Next, qaaccount, qadata, qafetch, qaindicator, qaposition, transaction,
@@ -34,12 +33,12 @@ impl<T> FloatIterExt for T
     where
         T: Iterator<Item=f64>,
 {
-    fn float_min(&mut self) -> f64 {
-        self.fold(f64::NAN, f64::min)
-    }
-
     fn float_max(&mut self) -> f64 {
         self.fold(f64::NAN, f64::max)
+    }
+
+    fn float_min(&mut self) -> f64 {
+        self.fold(f64::NAN, f64::min)
     }
 }
 
@@ -221,11 +220,11 @@ pub fn backtest() -> QA_Account {
 }
 
 fn main() {
-    let sw = Stopwatch::start_new();
+    let sw = Instant::now();
     let acc = backtest();
     //let file = File::open("data15.csv").unwrap();
 
     //println!("{:?}", acc.history_table());
     acc.to_csv();
-    println!("It took {0:.8} ms", sw.elapsed_ms());
+    println!("It took {0:.8} ms", sw.elapsed().as_secs_f64() * 1000.0);
 }

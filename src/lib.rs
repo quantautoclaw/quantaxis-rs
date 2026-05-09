@@ -16,6 +16,10 @@ pub mod transaction;
 pub mod qaperformance;
 pub mod trade_date;
 
+// Python bindings (only compiled when using PyO3)
+#[cfg(feature = "python")]
+pub mod pybindings;
+
 
 #[cfg(test)]
 #[macro_use]

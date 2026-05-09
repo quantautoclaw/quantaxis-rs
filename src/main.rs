@@ -2,7 +2,6 @@ extern crate ndarray;
 extern crate ndarray_csv;
 extern crate num_traits;
 extern crate serde;
-extern crate stopwatch;
 
 use std::error::Error;
 use std::io;
@@ -12,7 +11,6 @@ use csv::{ReaderBuilder, WriterBuilder};
 use ndarray::{array, stack};
 use ndarray::prelude::*;
 use serde_json;
-use stopwatch::Stopwatch;
 
 pub mod market_preset;
 pub mod qaaccount;
